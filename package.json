@@ -16,6 +16,10 @@
     "url": "https://github.com/atom/language-clojure/issues"
   },
   "devDependencies": {
-    "coffeelint": "^1.10.1"
+    "electron": "4.2.7",
+    "electron-rebuild": "1.8.8"
+  },
+  "dependencies": {
+    "tree-sitter-clojure": "git://github.com/sogaiu/tree-sitter-clojure.git#222a96d7516d9030acdd82fdf8572e71d8a0c356"
   }
 }

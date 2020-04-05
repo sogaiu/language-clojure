@@ -1,0 +1,23 @@
+1) the dependency for tree-sitter-clojure in package.json points at a
+   git repository.
+
+   the node bindings need to be available and those are not included
+   in tree-sitter-clojure (they need to be built once fetched).  after
+   npm install for language-clojure, do the following:
+   
+   cd node_modules/tree-sitter-clojure
+   npm install
+   npx tree-sitter generate
+   npx node-gyp configure
+   npx node-gyp rebuild
+   cd ../..
+
+2) the electron and electron-rebuild dependencies in package.json are
+   there so that the command for rebuilding to match the version of
+   electron used by atom is available:
+
+   npx electron-rebuild
+
+3) the coffeelint dev dependency was removed.  for local purposes, it
+   was unnecessary and it depended on vulnerable packages (minimist).
+   see: https://www.npmjs.com/advisories/1179

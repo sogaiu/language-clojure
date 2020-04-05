@@ -1,0 +1,108 @@
+name: 'clojure'
+scopeName: 'source.clojure'
+type: 'tree-sitter'
+parser: 'tree-sitter-clojure'
+
+fileTypes: [
+  'boot'
+  'clj'
+  'clj.hl'
+  'cljc'
+  'cljs'
+  'cljs.hl'
+  'cljx'
+  'clojure'
+  'edn'
+  'org'
+  'joke'
+  'joker'
+]
+
+comments:
+  start: ';'
+
+scopes:
+  'source_file': 'source.clojure'
+
+  'nil': 'constant.language.null'
+  'boolean > "true"': 'constant.language.boolean.true'
+  'boolean > "false"': 'constant.language.boolean.false'
+  'comment': 'comment.line'
+  'discard_form': 'comment.block'
+  'number': 'constant.numeric'
+
+  'keyword': 'constant.keyword'
+  'string': 'string.quoted'
+  'regular_expression': 'string.regexp'
+  'character': 'constant.character'
+
+  'metadata': 'meta'
+
+  'list > symbol:nth-child(1)': [
+    # special cases
+    {
+     match: '^(&|%|<|=|>|\\+|\\-|/|\\*|->|->>|alias|and|assert|case|catch|cond|cond->|declare|def|defn|defn-|do|doall|doseq|finally|fn|for|if|if-let|if-not|let|loop|monitor-enter|monitor-exit|not|not=|ns|or|quote|recur|require|some->|throw|try|var|when|when-let|when-not)$',
+     scopes: 'keyword.control'}
+    # otherwise...
+    {
+     match: '.',
+     scopes: 'entity.name.function'},
+  ]
+
+  'anonymous_function > symbol:nth-child(1)': [
+    # special cases
+    {
+     match: '^(&|%|<|=|>|\\+|\\-|/|\\*|->|->>|alias|and|assert|case|catch|cond|cond->|declare|def|defn|defn-|do|doall|doseq|finally|fn|for|if|if-let|if-not|let|loop|monitor-enter|monitor-exit|not|not=|ns|or|quote|recur|require|some->|throw|try|var|when|when-let|when-not)$',
+     scopes: 'keyword.control'}
+    # otherwise...
+    {
+     match: '.',
+     scopes: 'entity.name.function'},
+  ]
+
+  'vector > symbol': [
+    {
+      match: '&',
+      scopes: 'constant.keyword'
+    }
+  ]
+
+  # XXX: does def
+  #'var_definition > "def"': 'keyword.control'
+
+  #'function_definition > "defn"': 'keyword.control'
+  #'function_definition > "defn-"': 'keyword.control'
+
+  # XXX: unsupported selector - don't need for discard any more
+  # 'discard + list': 'string.quoted'
+  # this works with new method of discard
+  #'discard_form': 'comment'
+
+folds: [
+  # XXX: this one doesn't seem to do anything
+  {
+    type: 'comment'
+  },
+  # XXX: docs seem to suggest needing '"("' (double-quotes), but
+  #      that didn't work
+  {
+    start: {type: '(', index: 0},
+    end: {type: ')', index: -1}
+  },
+  {
+    start: {type: '[', index: 0},
+    end: {type: ']', index: -1}
+  },
+  {
+    start: {type: '{', index: 0},
+    end: {type: '}', index: -1}
+  },
+  # XXX: strings?
+  {
+    type: "string"
+  },
+  # {
+  #   start: {type: '"', index: 0},
+  #   end: {type: '"', index: -1}
+  # }
+]
