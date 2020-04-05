@@ -20,4 +20,23 @@
 
 3) the coffeelint dev dependency was removed.  for local purposes, it
    was unnecessary and it depended on vulnerable packages (minimist).
-   see: https://www.npmjs.com/advisories/1179
+   see:
+
+     https://www.npmjs.com/advisories/1179
+
+4) to install (assuming repository cloned to ~/src/language-clojure):
+
+   cd ~/.atom/packages
+   ln -s ~/src/language-clojure .
+
+5) to tweak what the language-clojure plugin does using tree-sitter-clojure,
+   edit the file grammars/tree-sitter-clojure.cson.  this is documented at:
+
+     https://flight-manual.atom.io/hacking-atom/sections/creating-a-grammar/
+
+6) there's a tree-sitter-syntax-visualizer atom plugin that is somewhat
+   helpful in examining tree-sitter-produced trees.  it's somewhat buggy
+   but far better than having nothing.  the following is a PR that made it
+   work again:
+
+     https://github.com/Xapphire13/tree-sitter-syntax-visualizer/pull/6
